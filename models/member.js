@@ -23,6 +23,11 @@ const Member = sequelize.define("member", {
         type: DataTypes.STRING,
         allowNull:false,
         defaultValue : "false"
+    },
+    borrowing : {
+        type: DataTypes.INTEGER,
+        allowNull:false,
+        defaultValue : 0
     }
 },{
     timestamps:false,

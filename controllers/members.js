@@ -1,13 +1,11 @@
 const sequelize = require("../config/connect");
 const {QueryTypes} = require("sequelize");
+const {sendErr} = require("../helpers/index");
 
 module.exports.getMembers = async(req,res) => {
 
     const query = `
-    SELECT member.code, name, is_penalized, COUNT(member.code) AS borrowed_qty
-    FROM member INNER JOIN borrow
-    ON member.code = borrow.member_code
-    GROUP BY member.code
+    SELECT code, name, is_penalized, borrowing FROM member 
     `;
        
     try {
@@ -23,6 +21,7 @@ module.exports.getMembers = async(req,res) => {
         })
         
     } catch(err) {
+        console.log(err)
         sendErr("Server Error", 400 ,res);
     }
 };

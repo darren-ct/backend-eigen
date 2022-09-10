@@ -24,11 +24,10 @@ app.use(express.json());
 app.use("/", require("./routes/auth"));
 
 app.use(verifyUser);
+app.use("/", require("./routes/borrow-return"));
 
 app.use("/", verifyAdmin, require("./routes/books"));
 app.use("/", verifyAdmin, require("./routes/members"));
-
-app.use("/", require("./routes/borrow-return"));
 
 // 
 app.listen(process.env.PORT || 5000, ()=>{

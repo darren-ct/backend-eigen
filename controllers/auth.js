@@ -4,7 +4,6 @@ const randomstring = require("randomstring");
 
 const Member = require("../models/member");
 const Admin = require("../models/admin");
-const {Op} = require("sequelize");
 
 const {sendErr} = require("../helpers/index");
 const {emailChecker, minimumChecker} = require("../helpers/checking");
@@ -48,6 +47,7 @@ module.exports.registerMember = async(req,res) => {
             status : "Success",
             data : {
                 user : {
+                    name : newMember.name,
                     code : newMember.code,
                     isAdmin : false,
                     token
@@ -99,7 +99,8 @@ module.exports.registerAdmin = async(req,res) => {
             status : "Success",
             data : {
                 user : {
-                    code : newMember.code,
+                    name : newAdmin.name,
+                    code : newAdmin.code,
                     isAdmin : true,
                     token
                 }
@@ -124,9 +125,9 @@ module.exports.loginMember = async(req,res) => {
        if(!match) return sendErr("Email not yet registered", 400, res);
     
        //Check password
-       const isMatch = bcrypt.compareSync(password,matchedPw);
+       const isMatch = bcrypt.compareSync(password,match.password);
 
-       if(isMatch) return sendErr("Wrong password", 400, res);
+       if(!isMatch) return sendErr("Wrong password", 400, res);
 
        //Beri token    
        const token = jwt.sign({
@@ -141,6 +142,7 @@ module.exports.loginMember = async(req,res) => {
           status : "Success",
           data : {
             user : {
+                name : match.name,
                 code : match.code,
                 isAdmin : false,
                 token
@@ -165,9 +167,9 @@ module.exports.loginAdmin = async(req,res) => {
        if(!match) return sendErr("Email not yet registered", 400, res);
     
        //Check password
-       const isMatch = bcrypt.compareSync(password,matchedPw);
+       const isMatch = bcrypt.compareSync(password,match.password);
 
-       if(isMatch) return sendErr("Wrong password", 400, res);
+       if(!isMatch) return sendErr("Wrong password", 400, res);
 
        //Beri token    
        const token = jwt.sign({
@@ -182,6 +184,7 @@ module.exports.loginAdmin = async(req,res) => {
           status : "Success",
           data : {
             user : {
+                name : match.name ,
                 code : match.code,
                 isAdmin : true,
                 token

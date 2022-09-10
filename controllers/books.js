@@ -1,5 +1,6 @@
 const Book = require("../models/book");
 const {sendErr} = require("../helpers/index");
+const {minimumChecker} = require("../helpers/checking")
 const randomstring = require("randomstring");
 
 module.exports.getBooks = async(req,res) => {
@@ -26,6 +27,7 @@ module.exports.postBook = async(req,res) => {
         // Checking format
         if(!minimumChecker(title,1)) return sendErr("Title minimum 1 character",400,res);
         if(!minimumChecker(author,1)) return sendErr("Author minimal 1 character",400,res);
+        if(Number(stock) < 0) return sendErr("Stock cannot be negative",400,res);
 
        try {
           const newBook = await Book.create({
