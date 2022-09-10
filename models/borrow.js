@@ -3,7 +3,7 @@ const sequelize = require("../config/connect");
 
 const Borrow = sequelize.define("borrow", {
     borrow_id : {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         primaryKey:true,
         autoIncrement:true
     },

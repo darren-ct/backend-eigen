@@ -25,7 +25,7 @@ app.use("/", require("./routes/auth"));
 
 app.use(verifyUser);
 
-app.use("/", verifyAdmin, require("./routes/book"));
+app.use("/", verifyAdmin, require("./routes/books"));
 app.use("/", verifyAdmin, require("./routes/members"));
 
 app.use("/", require("./routes/borrow-return"));
