@@ -44,6 +44,7 @@ module.exports.postBook = async(req,res) => {
               }
           });
        } catch(err) {
+           console.log(err);
            sendErr("Server Error",400,res)
        };
 };
